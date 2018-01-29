@@ -46,11 +46,8 @@ const generatePdf = function (filename, next) {
   });
 };
 
-const generatePdfAsync = bluebird.promisify(generatePdf);
 
-
-
-app.post("/pdf", upload.any(), (req, res) => {
+app.post("/pdf", upload.any(), async (req, res) => {
   //console.log(req.body) // form fields
   console.log(req.files) // form files
   let filename = req.files[0].filename;
@@ -60,7 +57,20 @@ app.post("/pdf", upload.any(), (req, res) => {
   //contentName = req.files[0].file;
 
   
-  generatePdfAsync(path)
+  generatePdf(path, function(err, result){
+    
+    console.log(result);
+  let newPdf = "./" + path + ".pdf";
+  console.log(newPdf);
+  res.send(fs.createReadStream(newPdf))
+/*
+  fs.unlinkAsync(path).then(res => undefined).catch(err => console.log(err));
+  fs.unlinkAsync(newPdf)
+              .then(res => undefined)
+              .catch(err => console.log(err));
+
+*/
+  })
 
 
 });
