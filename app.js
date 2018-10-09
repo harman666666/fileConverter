@@ -62,13 +62,10 @@ const generatePdf = function (filename, next) {
 
 
 app.post("/pdf", upload.any(), async (req, res) => {
-  //console.log(req.body) // form fields
+
   console.log(req.files) // form files
   let filename = req.files[0].filename;
   let path = req.files[0].path;
-  //console.log(req["files"]);
-  //content = req["files"][0];
-  //contentName = req.files[0].file;
 
 
   generatePdf(path, function (err, result) {
@@ -105,110 +102,8 @@ app.post("/pdf", upload.any(), async (req, res) => {
     });
 
 
-    // res.send(fs.createReadStream(newPdf))
-    /*
-      fs.unlinkAsync(path).then(res => undefined).catch(err => console.log(err));
-      fs.unlinkAsync(newPdf)
-                  .then(res => undefined)
-                  .catch(err => console.log(err));
 
-    */
   });
 });
 
 
-
-// [END app]
-
-
-
-/*
-const test = () => {
-  cloudinary.uploader.upload("doc.pdf", function (result) {
-    console.log(result);
-  });
-
-};
-
-export async function uploadDocument(filePath, public_id = null) {
-  const options = {};
-  if (public_id) {
-    options["public_id"] = public_id;
-  }
-  return await cloudinary.v2.uploader.upload(filePath, options).then(function (result) {
-    console.log(filePath + " // has been uploaded");
-    console.log(result);
-    return result;
-  }).catch(err => {
-    console.log("Error in file upload");
-    console.log(err);
-    return undefined;
-  });
-}
-
-/*
-{ public_id: "sample_document.docx",
-resource_type: "raw",
-raw_convert: "aspose"
-}
-*/
-/*
-export async function uploadWord(filePath, public_id = null) {
-  const options = {};
-  if (public_id) {
-    options["public_id"] = public_id;
-  }
-
-  options["resource_type"] = "raw";
-
-  return await cloudinary.v2.uploader.upload(filePath, options).then(function (result) {
-    console.log(filePath + " // has been uploaded");
-    console.log(result);
-    return result;
-  }).catch(err => {
-    console.log("Error in file upload");
-    console.log(err);
-    return undefined;
-  });
-}
-
-
-// Only call this once and save the URL.
-// Question is, do we want to change the URL up every so often etc???
-export async function createZipOfDocument(public_id) {
-  console.log("GET DOWNLOAD URL FOR: " + public_id);
-  return await cloudinary.v2.uploader.create_zip({ public_ids: public_id })
-    .then(result => {
-      console.log(result);
-      return result;
-    }).catch(error => console.log(error));
-}
-
-// createZipOfDocument("yiqbqlomynttguehkwko");
-// uploadDocument("./doc.pdf");
-
-// test(); => Save PDF
-/// Good way to save files
-/*
-
-
-{
-  public_id: 'yiqbqlomynttguehkwko',
-  version: 1514573624,
-  signature: '223a495a2c104c440455fc1c930350385ef77b4c',
-  width: 612,
-  height: 792,
-  format: 'pdf',
-  resource_type: 'image',
-  created_at: '2017-12-29T18:53:45Z',
-  tags: [],
-  pages: 16,
-  bytes: 92399,
-  type: 'upload',
-  etag: '836266cca2bbda7cd49045040531e8c0',
-  placeholder: false,
-  url: 'http://res.cloudinary.com/blackpaper/image/upload/v1514573624/yiqbqlomynttguehkwko.pdf',
-  secure_url: 'https://res.cloudinary.com/blackpaper/image/upload/v1514573624/yiqbqlomynttguehkwko.pdf',
-  original_filename: 'doc'
-}
-*/
